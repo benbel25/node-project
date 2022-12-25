@@ -34,7 +34,7 @@ authRouter.post("/", async (req, res) => {
 
   res.json({
     token: user.generateToken(),
-    biz: user.biz,
+    admin: user.admin,
   });
 });
 

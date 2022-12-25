@@ -30,7 +30,7 @@ usersRouter.post("/", async (req, res) => {
   const salt = await bcrypt.genSalt(12);
   user.password = await bcrypt.hash(req.body.password, salt);
   await user.save();
-  res.status(201).json(_.pick(user, ["name", "email", "biz", "_id"]));
+  res.status(201).json(_.pick(user, ["name", "email", "_id"]));
 });
 
 module.exports = usersRouter;

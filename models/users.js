@@ -25,20 +25,18 @@ const userSchema = new mongoose.Schema({
     type: Date,
     default: Date.now,
   },
-  biz: {
+  admin: {
     required: false,
     type: Boolean,
   },
-
   cards: Array,
 });
-
 
 userSchema.methods.generateToken = function () {
   const token = jwt.sign(
     {
       _id: this._id,
-      biz: this.biz,
+      admin: this.admin,
       email: this.email,
     },
     process.env.JWT_SECRET
@@ -55,8 +53,14 @@ const schema = joi.object({
     .max(320)
     .required()
     .regex(/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/),
-  password: joi.string().min(8).max(1024).required(),
-  biz: joi.boolean(),
+  password: joi
+    .string()
+    .max(1024)
+    .required()
+    .regex(
+      /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]{4,})(?=.*?[#?!@$%^&*-]).{8,}$/
+    ),
+  admin: joi.boolean(),
 });
 
 const userCardschema = joi.object({
